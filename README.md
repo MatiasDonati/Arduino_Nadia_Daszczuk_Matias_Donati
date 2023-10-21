@@ -1,4 +1,4 @@
-# Arudino
+# Arduino
 ![Tinkercad](./imgs/contadoresLeds.png)
 
 ## Integrantes
