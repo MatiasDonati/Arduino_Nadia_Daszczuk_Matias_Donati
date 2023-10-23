@@ -24,7 +24,7 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
  - Ej: si el fotoresistor es mayor a 940 o el sensor de luz ambiental es menor que 18 (dependieno codigo 1 o codigo 2) la temperatura se setea en 35 por lo que se enciende el motor. (El motor se encuendo cuando la teperatura igual o mayor a 30, caso contrario se apaga.)
 
 ## :mag: Funciónes principales
-* **imprimir_contador(int contador)** 
+* **imprimir_contador(int contador)**
 
          void imprimir_contador(int contador)
          {

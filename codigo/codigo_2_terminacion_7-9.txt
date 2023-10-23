@@ -1,7 +1,7 @@
 // C++ code
 
 # define A 12
-# define B 13  
+# define B 13
 # define C 7
 # define D 8
 # define E 9
