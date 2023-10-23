@@ -41,6 +41,6 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
 Como su nombre indica, luego de realizar un calculo con el modulo %, retorna un booleano para saber si el numero es primo.
 
 ## :robot: Link al proyecto
-- [proyecto terminacion 0-3](https://www.tinkercad.com/things/hhzmKLDNCTP-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=XlhfunB_HZDaU7JE3eJscTtCSTudx3zqby0YumbzlvU)
+- [proyecto terminacion 0-3](https://www.tinkercad.com/things/hhzmKLDNCTP-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=XlhfunB_HZDaU7JE3eJscTtCSTudx3zqby0YumbzlvU){:target="_blank"}
 
-- [proyecto terminacion 7-9](https://www.tinkercad.com/things/41yyffxaWwO-copy-of-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=CT462ZGyd9uN4jaChU0jfaKNmfP3cf43y9_2FOy9WHI)
+- [proyecto terminacion 7-9](https://www.tinkercad.com/things/41yyffxaWwO-copy-of-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=CT462ZGyd9uN4jaChU0jfaKNmfP3cf43y9_2FOy9WHI){:target="_blank"}
