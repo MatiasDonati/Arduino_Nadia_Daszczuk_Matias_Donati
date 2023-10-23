@@ -41,8 +41,44 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
 
  * **int keypressed(void)**
 
+      int keypressed(void)
+      {
+        sube = digitalRead(UP);
+        baja = digitalRead(DOWN);
+        reset = digitalRead(RESET);
 
-<!-- REDACTAR BIEN Y DE NUEVO ! -->
+        if(sube == 1)
+        {
+            subePrevia = 1;
+        }
+        
+        if(baja) // no presione
+        {
+            bajaPrevia = 1;
+        }
+        if(reset) // no presione
+        {
+          resetPrevia = 1;
+        }
+      
+        if (sube == 0 && sube != subePrevia)
+        {
+          subePrevia=sube;
+          return UP;
+        }
+        
+        if (baja == 0 && baja != bajaPrevia)
+        {
+          bajaPrevia=baja;
+          return DOWN;
+        }
+        
+        if (reset == 0 && reset != resetPrevia)
+        {
+          resetPrevia=reset;
+          return RESET;
+        }
+       }
 
  Esta funcion lee los estados de los botones. Se manjea en base a dos valores: el boton principal 0 o 1, y un valor para saber si el boton ya se presionó.
 
