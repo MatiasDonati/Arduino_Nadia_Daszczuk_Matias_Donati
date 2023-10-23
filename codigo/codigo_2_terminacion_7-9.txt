@@ -333,7 +333,7 @@ int siguiente_primo(int numero)
 
 int anterior_primo(int numero)
 {
-  if (numero >= 2) {
+  if (numero >= 2 or numero == 0) {
     numero--;
     while (!es_primo(numero)) {
       numero--;

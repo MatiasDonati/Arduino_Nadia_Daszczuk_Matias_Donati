@@ -51,7 +51,7 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
         {
             subePrevia = 1;
         }
-        
+
         if(baja) // no presione
         {
             bajaPrevia = 1;
