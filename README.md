@@ -24,26 +24,38 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
  - Ej: si el fotoresistor es mayor a 940 o el sensor de luz ambiental es menor que 18 (dependieno codigo 1 o codigo 2) la temperatura se setea en 35 por lo que se enciende el motor. (El motor se encuendo cuando la teperatura igual o mayor a 30, caso contrario se apaga.)
 
 ## :mag: Funciónes principales
- - imprimir_contador(int contador)
+* **imprimir_contador(int contador)** 
+
+         void imprimir_contador(int contador)
+         {
+  	       prender_led(APAGAR_LED);
+	       prender_numero(contador/10);
+  	       prender_led(DECENA);
+  	       prender_led(APAGAR_LED);
+  	       prender_numero(contador - 10*((int)contador/10));
+  	       prender_led(UNIDAD);
+  	       prender_led(APAGAR_LED);
+         }
 
  Esta funcion es la que se encarga de alternar la visualización de cada display en un intervalo de tiempo muy corto,  para que parezca que ambos están encendidos al mismo tiempo.
 
- - int keypressed(void)
+ * **int keypressed(void)**
+
 
 <!-- REDACTAR BIEN Y DE NUEVO ! -->
 
  Esta funcion lee los estados de los botones. Se manjea en base a dos valores: el boton principal 0 o 1, y un valor para saber si el boton ya se presionó.
 
- - Ej: Como el programa loopea de forma rapida, cuando se ejecuta, el botón no está presionado, por lo que la variable que define si se presionó, toma su valor en 1. Cuando el botón se presiona (0), se verifica si está distnto del valor presionado(1), de así ser, se iguala el valor del botón con el valor de boton presionado previamente y se retorna dicho boton.
+
+Ej: Como el programa loopea de forma rapida, cuando se ejecuta, el botón no está presionado, por lo que la variable que define si se presionó, toma su valor en 1. Cuando el botón se presiona (0), se verifica si está distnto del valor presionado(1), de así ser, se iguala el valor del botón con el valor de boton presionado previamente y se retorna dicho boton.
  La igualacion de valores se realiza para que si el boton queda presionado no se tome como presionado mas de una vez.
 
-- bool es_primo(int numero)
+- **bool es_primo(int numero)**
 Como su nombre indica, luego de realizar un calculo con el modulo %, retorna un booleano para saber si el numero es primo.
 
 ## :robot: Link al proyecto
 - [proyecto terminacion 0-3](https://www.tinkercad.com/things/hhzmKLDNCTP-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=XlhfunB_HZDaU7JE3eJscTtCSTudx3zqby0YumbzlvU)
-  <a href="https://www.tinkercad.com/things/hhzmKLDNCTP-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=XlhfunB_HZDaU7JE3eJscTtCSTudx3zqby0YumbzlvU" target="_blank">Abrir en nueva pestaña</a>
 
 - [proyecto terminacion 7-9](https://www.tinkercad.com/things/41yyffxaWwO-copy-of-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=CT462ZGyd9uN4jaChU0jfaKNmfP3cf43y9_2FOy9WHI)
-  <a href="https://www.tinkercad.com/things/41yyffxaWwO-copy-of-parcial-domicilaior-arduino-nadia-daszczuk-matias-donati/editel?sharecode=CT462ZGyd9uN4jaChU0jfaKNmfP3cf43y9_2FOy9WHI" target="_blank">Abrir en nueva pestaña</a>
 
+:raised_hands: :raised_hands: :raised_hands: :raised_hands:
