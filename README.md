@@ -3,7 +3,6 @@
 # - Swtich para mostrar contador de numeros primos.
 # - Adicion de Motor, sensor de temperatura y fotoresistor.
 
-
 ![Tinkercad](./imgs/contadoresLeds.png)
 
 ## Integrantes
