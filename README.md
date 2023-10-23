@@ -1,15 +1,15 @@
-## Proyecto:
+## :rocket: Proyecto: :rocket:
  - Contador de dos cifras con dos Display de 7 segmentos.
  - Swtich para mostrar contador de numeros primos.
  - Adicion de Motor, sensor de temperatura y fotoresistor.
 
 ![Tinkercad](./imgs/contadoresLeds.png)
 
-## Integrantes
+## :coffee: Integrantes
 - Nadia Daszczuk
 - Matias Donati
 
-## Descripción
+## :pencil2: Descripción
 El programa esta desarrolado en lengia C++ mediante la web https://www.tinkercad.com/
 
 En esta primera parte del parcial domiciliario realizamos mediante el uso de la multiplexación, un contador de 00 al 99, con dos displays de 7 segmentos.
@@ -22,7 +22,7 @@ El arranque del motor depende del sensor de temperatura que a su vez depende de 
  - Ej: si el fotoresistor es mayor a 940 la temperatura se setea en 35 por lo que se enciende el motor. (El motor se encuendo cuando la teperatura igual o mayor a 30, caso contrario se apaga.)
 
 
-## Funciónes principales
+## :mag: Funciónes principales
  - imprimir_contador(int contador)
 
  Esta funcion es la que se encarga de alternar la visualización de cada display en un intervalo de tiempo muy corto,  para que parezca que ambos están encendidos al mismo tiempo.
@@ -56,15 +56,6 @@ Como su nombre indica, luego de realizar un calculo con el modulo %, retorna un 
 
 ---
 
-## :thumbsup: :thumbsup:
-## :heart: :heart:
-## :star: :star:
-## :fire: :fire:
-## :rocket: :rocket:
-## :tada: :tada:
-## :sunny: :sunny:
-## :wink: :wink:
-## :coffee: :coffee:
 
 
 
