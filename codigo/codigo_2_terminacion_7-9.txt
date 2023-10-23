@@ -1,0 +1,360 @@
+// C++ code
+
+# define A 12
+# define B 13  
+# define C 7
+# define D 8
+# define E 9
+# define F 11
+# define G 10
+
+# define RESET 5
+# define UP 4
+# define DOWN 3
+
+# define INTERRUPTOR 2
+# define UNIDAD A5
+# define DECENA A4
+
+# define APAGAR_LED 0
+# define DELAY_LEDS 10
+
+#define ADELANTE A3
+#define ATRAS A2
+
+#define SENSOR 0
+
+int ft=1;
+int valorft = 0;
+
+void setup()
+{
+  pinMode(A, OUTPUT);
+  pinMode(B, OUTPUT);
+  pinMode(C, OUTPUT);
+  pinMode(D, OUTPUT);
+  pinMode(E, OUTPUT);
+  pinMode(F, OUTPUT);
+  pinMode(G, OUTPUT);
+  pinMode(RESET, INPUT_PULLUP);
+  pinMode(UP, INPUT_PULLUP);
+  pinMode(DOWN, INPUT_PULLUP);
+  pinMode(UNIDAD, OUTPUT);
+  pinMode(DECENA, OUTPUT);
+  pinMode(INTERRUPTOR, INPUT);  
+  
+  pinMode(ADELANTE, OUTPUT);
+  pinMode(ATRAS, OUTPUT);
+  
+  pinMode(ft, INPUT);
+
+  Serial.begin(9600);
+}
+int sube;
+int baja;
+int reset;
+int subePrevia;
+int bajaPrevia;
+int resetPrevia;
+
+int contador = 0;
+
+int temperatura;
+int lecturaCuenta;
+
+int lecturaFotoresistencia;
+
+void loop()
+{
+  valorft = analogRead(ft);
+  Serial.println(valorft);
+  
+  lecturaCuenta = analogRead(SENSOR);
+  temperatura = map(lecturaCuenta, 20, 358, -40, 125);
+  
+  if (valorft < 18)
+    temperatura = 35;
+  else
+    temperatura = 25;
+  if (temperatura >= 30)
+  {
+   // digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, HIGH);
+  }
+  else
+  {
+    //digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+  }
+  int switchState = digitalRead(INTERRUPTOR);
+  int pressed = keypressed();
+ 
+  if (switchState == 1)
+  {
+  	if (pressed == UP) 
+    {
+     // digitalWrite(ATRAS, LOW);
+     // digitalWrite(ADELANTE, HIGH);
+      contador = siguiente_primo(contador);
+    } 
+
+    else if (pressed == DOWN) 
+    {
+     // digitalWrite(ADELANTE, LOW);
+     // digitalWrite(ATRAS, HIGH);
+      contador = anterior_primo(contador);
+    }
+  
+  }
+
+  else
+  {
+
+    if (pressed == UP)
+    {
+    // digitalWrite(ATRAS, LOW);
+    // digitalWrite(ADELANTE, HIGH);
+     
+      contador++;
+        if (contador>99)
+          contador=0;
+    }
+    else if (pressed == DOWN)
+    {
+      
+    //  digitalWrite(ADELANTE, LOW);
+    //  digitalWrite(ATRAS, HIGH);
+      
+      contador--;
+        if (contador<0)
+          contador=99;
+    }
+   }
+	
+  if (pressed == RESET)
+  {
+    digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+	contador=0;
+  }
+       
+  
+  imprimir_contador(contador);
+}
+
+void prender_numero(int numero)
+ 
+{
+  digitalWrite(A, LOW);
+  digitalWrite(B, LOW);
+  digitalWrite(C, LOW);
+  digitalWrite(D, LOW);
+  digitalWrite(E, LOW);
+  digitalWrite(F, LOW);
+  digitalWrite(G, LOW);
+  
+  switch(numero)
+  {
+    case 1:
+    {
+      digitalWrite(B, HIGH);
+  		digitalWrite(C, HIGH);
+    	break;
+    }
+    case 2:
+    {
+    	digitalWrite(A, HIGH);
+  		digitalWrite(B, HIGH);
+  		digitalWrite(G, HIGH);
+  		digitalWrite(D, HIGH);
+  		digitalWrite(E, HIGH);
+      break;
+    }
+    case 3:
+    {
+      digitalWrite(A, HIGH);
+  		digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    }
+    case 4: 
+    {
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(G, HIGH);
+      digitalWrite(F, HIGH);
+      break;
+    }
+  	case 5:
+    {
+      digitalWrite(A, HIGH);
+  		digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      break;
+    }
+    case 6:
+    {
+      digitalWrite(A, HIGH);
+  		digitalWrite(C, HIGH);
+  		digitalWrite(D, HIGH);
+  		digitalWrite(E, HIGH);
+  		digitalWrite(F, HIGH);
+      	digitalWrite(G, HIGH);
+      break;
+    }
+    case 7:
+    {
+      digitalWrite(A, HIGH);
+  		digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      break;
+    }
+    case 8:
+    {
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+  		digitalWrite(C, HIGH);
+  		digitalWrite(D, HIGH);
+  		digitalWrite(E, HIGH);
+  		digitalWrite(F, HIGH);
+      	digitalWrite(G, HIGH);
+      break;
+    }
+    case 9:
+    {
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+  		digitalWrite(C, HIGH);
+  		digitalWrite(F, HIGH);
+      	digitalWrite(G, HIGH);
+      break;
+    }
+    case 0:
+    {
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+  		digitalWrite(C, HIGH);
+  		digitalWrite(D, HIGH);
+  		digitalWrite(E, HIGH);
+  		digitalWrite(F, HIGH);
+      break;
+    }
+  }
+
+}
+
+void prender_led(int digito)
+  
+{
+  if (digito == UNIDAD)
+  {
+    digitalWrite(UNIDAD, LOW); //pongo el comun de unidad en 0 (enciende)
+  	digitalWrite(DECENA, HIGH); //pongo el comun de unidad en 0 (NO enciende)
+  	delay(DELAY_LEDS);
+  }
+  else if(digito == DECENA)
+  {
+    digitalWrite(UNIDAD, HIGH);
+    digitalWrite(DECENA, LOW);
+  	delay(DELAY_LEDS);
+  }
+  else 
+  {
+    digitalWrite(UNIDAD, HIGH);
+  	digitalWrite(DECENA, HIGH);
+  }
+}
+
+void imprimir_contador(int contador)
+{ 
+  	prender_led(APAGAR_LED);
+	prender_numero(contador/10);
+  	prender_led(DECENA);
+  	//delay(1000);
+  	prender_led(APAGAR_LED);
+  	prender_numero(contador - 10*((int)contador/10));
+  	prender_led(UNIDAD);
+    //delay(1000);
+  	prender_led(APAGAR_LED);
+}
+
+int keypressed(void)
+{
+  sube = digitalRead(UP);
+  baja = digitalRead(DOWN);
+  reset = digitalRead(RESET);
+
+    if(sube == 1) // no presione
+  {
+     // Serial.println(sube); // es 0
+     subePrevia = 1;
+  }
+     if(baja) // no presione
+  {
+     bajaPrevia = 1;
+  }
+     if(reset) // no presione
+  {
+     resetPrevia = 1;
+  }
+    
+  if (sube == 0 && sube != subePrevia)
+  {
+    subePrevia=sube;
+    return UP;
+  }
+  
+  if (baja == 0 && baja != bajaPrevia)
+  {
+    bajaPrevia=baja;
+    return DOWN;
+  }
+  
+  if (reset == 0 && reset != resetPrevia)
+  {
+    resetPrevia=reset;
+    return RESET;
+  }
+  // return 0;
+}
+
+int siguiente_primo(int numero)
+{
+  numero++;
+  while (!es_primo(numero)) {
+    numero++;
+  }
+  return numero;
+}
+
+int anterior_primo(int numero)
+{
+  if (numero >= 2) {
+    numero--;
+    while (!es_primo(numero)) {
+      numero--;
+      if (numero < 2) 
+      {
+        return 97; 
+      }
+    }
+  }
+  return numero;
+}
+
+bool es_primo(int numero)
+{
+  if (numero <= 1) {
+    return false;
+  }
+  for (int i = 2; i * i <= numero; i++) {
+    if (numero % i == 0) {
+      return false;
+    }
+  }
+  return true;
+}

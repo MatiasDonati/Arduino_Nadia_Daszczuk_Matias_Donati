@@ -1,19 +1,31 @@
 // C++ code
 
 # define A 12
-# define B 13
+# define B 13  
 # define C 7
 # define D 8
 # define E 9
 # define F 11
 # define G 10
+
 # define RESET 5
 # define UP 4
 # define DOWN 3
+
+# define INTERRUPTOR 2
 # define UNIDAD A5
 # define DECENA A4
+
 # define APAGAR_LED 0
 # define DELAY_LEDS 10
+
+#define ADELANTE A3
+#define ATRAS A2
+
+#define SENSOR 0
+
+int ft=1;
+int valorft = 0;
 
 void setup()
 {
@@ -29,6 +41,13 @@ void setup()
   pinMode(DOWN, INPUT_PULLUP);
   pinMode(UNIDAD, OUTPUT);
   pinMode(DECENA, OUTPUT);
+  pinMode(INTERRUPTOR, INPUT);  
+  
+  pinMode(ADELANTE, OUTPUT);
+  pinMode(ATRAS, OUTPUT);
+  
+  pinMode(ft, INPUT);
+
   Serial.begin(9600);
 }
 int sube;
@@ -39,25 +58,87 @@ int bajaPrevia;
 int resetPrevia;
 
 int contador = 0;
+
+int temperatura;
+int lecturaCuenta;
+
+int lecturaFotoresistencia;
+
 void loop()
 {
+  valorft = analogRead(ft);
+  Serial.println(valorft);
+  
+  lecturaCuenta = analogRead(SENSOR);
+  temperatura = map(lecturaCuenta, 20, 358, -40, 125);
+  
+  if (valorft > 940)
+    temperatura = 35;
+  else
+    temperatura = 25;
+  if (temperatura >= 30)
+  {
+   // digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, HIGH);
+  }
+  else
+  {
+    //digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+  }
+  int switchState = digitalRead(INTERRUPTOR);
   int pressed = keypressed();
-  if (pressed == UP)
+ 
+  if (switchState == 1)
   {
-  contador++;
-    if (contador>99)
-      contador=0;
+  	if (pressed == UP) 
+    {
+     // digitalWrite(ATRAS, LOW);
+     // digitalWrite(ADELANTE, HIGH);
+      contador = siguiente_primo(contador);
+    } 
+
+    else if (pressed == DOWN) 
+    {
+     // digitalWrite(ADELANTE, LOW);
+     // digitalWrite(ATRAS, HIGH);
+      contador = anterior_primo(contador);
+    }
+  
   }
-  else if (pressed == DOWN)
+
+  else
   {
-  contador--;
-    if (contador<0)
-      contador=99;
-  }
-  else if (pressed == RESET)
+
+    if (pressed == UP)
+    {
+    // digitalWrite(ATRAS, LOW);
+    // digitalWrite(ADELANTE, HIGH);
+     
+      contador++;
+        if (contador>99)
+          contador=0;
+    }
+    else if (pressed == DOWN)
+    {
+      
+    //  digitalWrite(ADELANTE, LOW);
+    //  digitalWrite(ATRAS, HIGH);
+      
+      contador--;
+        if (contador<0)
+          contador=99;
+    }
+   }
+	
+  if (pressed == RESET)
   {
-     contador=0;
+    digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+	contador=0;
   }
+       
+  
   imprimir_contador(contador);
 }
 
@@ -193,9 +274,11 @@ void imprimir_contador(int contador)
   	prender_led(APAGAR_LED);
 	prender_numero(contador/10);
   	prender_led(DECENA);
+  	//delay(1000);
   	prender_led(APAGAR_LED);
   	prender_numero(contador - 10*((int)contador/10));
   	prender_led(UNIDAD);
+    //delay(1000);
   	prender_led(APAGAR_LED);
 }
 
@@ -218,7 +301,7 @@ int keypressed(void)
   {
      resetPrevia = 1;
   }
-    
+
   if (sube == 0 && sube != subePrevia)
   {
     subePrevia=sube;
@@ -238,4 +321,40 @@ int keypressed(void)
   }
   // return 0;
 }
-  
+
+int siguiente_primo(int numero)
+{
+  numero++;
+  while (!es_primo(numero)) {
+    numero++;
+  }
+  return numero;
+}
+
+int anterior_primo(int numero)
+{
+  if (numero >= 2) {
+    numero--;
+    while (!es_primo(numero)) {
+      numero--;
+      if (numero < 2) 
+      {
+        return 97; 
+      }
+    }
+  }
+  return numero;
+}
+
+bool es_primo(int numero)
+{
+  if (numero <= 1) {
+    return false;
+  }
+  for (int i = 2; i * i <= numero; i++) {
+    if (numero % i == 0) {
+      return false;
+    }
+  }
+  return true;
+}
