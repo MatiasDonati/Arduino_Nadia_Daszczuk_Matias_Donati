@@ -1,0 +1,390 @@
+// C++ code
+# define SEG_A 12
+# define SEG_B 13
+# define SEG_C 7
+# define SEG_D 8
+# define SEG_E 9
+# define SEG_F 11
+# define SEG_G 10
+
+//# define A 12
+//# define B 13  
+//# define C 7
+//# define D 8
+//# define E 9
+//# define F 11
+//# define G 10
+
+# define RESET 5
+# define UP 4
+# define DOWN 3
+
+# define INTERRUPTOR 2
+# define UNIDAD A5
+# define DECENA A4
+
+# define APAGAR_LED 0
+# define DELAY_LEDS 10
+
+#define ADELANTE A3
+#define ATRAS A2
+
+#define SENSOR 0
+
+int ft=1;
+int valorft = 0;
+
+void setup()
+{
+  pinMode(SEG_A, OUTPUT);
+  pinMode(SEG_B, OUTPUT);
+  pinMode(SEG_C, OUTPUT);
+  pinMode(SEG_D, OUTPUT);
+  pinMode(SEG_E, OUTPUT);
+  pinMode(SEG_F, OUTPUT);
+  pinMode(SEG_G, OUTPUT);
+  pinMode(RESET, INPUT_PULLUP);
+  pinMode(UP, INPUT_PULLUP);
+  pinMode(DOWN, INPUT_PULLUP);
+  pinMode(UNIDAD, OUTPUT);
+  pinMode(DECENA, OUTPUT);
+  pinMode(INTERRUPTOR, INPUT);  
+  
+  pinMode(ADELANTE, OUTPUT);
+  pinMode(ATRAS, OUTPUT);
+  
+  pinMode(ft, INPUT);
+
+  Serial.begin(9600);
+}
+int sube;
+int baja;
+int reset;
+int subePrevia;
+int bajaPrevia;
+int resetPrevia;
+
+int contador = 0;
+
+int temperatura;
+int lecturaCuenta;
+
+int lecturaFotoresistencia;
+
+void loop()
+{
+  valorft = analogRead(ft);
+  Serial.println(valorft);
+  
+  lecturaCuenta = analogRead(SENSOR);
+  temperatura = map(lecturaCuenta, 20, 358, -40, 125);
+  
+  if (valorft > 940)
+    temperatura = 35;
+  else
+    temperatura = 25;
+  if (temperatura >= 30)
+  {
+   // digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, HIGH);
+  }
+  else
+  {
+    //digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+  }
+  int switchState = digitalRead(INTERRUPTOR);
+  int pressed = keypressed();
+ 
+  if (switchState == 1)
+  {
+  	if (pressed == UP) 
+    {
+     // digitalWrite(ATRAS, LOW);
+     // digitalWrite(ADELANTE, HIGH);
+      contador = siguiente_primo(contador);
+    } 
+
+    else if (pressed == DOWN) 
+    {
+     // digitalWrite(ADELANTE, LOW);
+     // digitalWrite(ATRAS, HIGH);
+      contador = anterior_primo(contador);
+    }
+  
+  }
+
+  else
+  {
+
+    if (pressed == UP)
+    {
+    // digitalWrite(ATRAS, LOW);
+    // digitalWrite(ADELANTE, HIGH);
+     
+      contador++;
+        if (contador>99)
+          contador=0;
+    }
+    else if (pressed == DOWN)
+    {
+      
+    //  digitalWrite(ADELANTE, LOW);
+    //  digitalWrite(ATRAS, HIGH);
+      
+      contador--;
+        if (contador<0)
+          contador=99;
+    }
+   }
+	
+  if (pressed == RESET)
+  {
+    digitalWrite(ATRAS, LOW);
+    digitalWrite(ADELANTE, LOW);
+	contador=0;
+  }
+       
+  
+  imprimir_contador_hex(contador);
+}
+
+void prender_numero_hex(int numero)
+{
+  digitalWrite(SEG_A, LOW);
+  digitalWrite(SEG_B, LOW);
+  digitalWrite(SEG_C, LOW);
+  digitalWrite(SEG_D, LOW);
+  digitalWrite(SEG_E, LOW);
+  digitalWrite(SEG_F, LOW);
+  digitalWrite(SEG_G, LOW);
+
+  switch (numero)
+  {
+    case 0:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      break;
+    case 1:
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      break;
+    case 2:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 3:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 4:
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 5:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 6:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 7:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      break;
+    case 8:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 9:
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+     case 10: // A
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 11: // B
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 12: // C
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      break;
+    case 13: // D
+      digitalWrite(SEG_B, HIGH);
+      digitalWrite(SEG_C, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 14: // E
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_D, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+    case 15: // F
+      digitalWrite(SEG_A, HIGH);
+      digitalWrite(SEG_E, HIGH);
+      digitalWrite(SEG_F, HIGH);
+      digitalWrite(SEG_G, HIGH);
+      break;
+  }
+}
+
+
+void prender_led(int digito)
+  
+{
+  if (digito == UNIDAD)
+  {
+    digitalWrite(UNIDAD, LOW); //pongo el comun de unidad en 0 (enciende)
+  	digitalWrite(DECENA, HIGH); //pongo el comun de unidad en 0 (NO enciende)
+  	delay(DELAY_LEDS);
+  }
+  else if(digito == DECENA)
+  {
+    digitalWrite(UNIDAD, HIGH);
+    digitalWrite(DECENA, LOW);
+  	delay(DELAY_LEDS);
+  }
+  else 
+  {
+    digitalWrite(UNIDAD, HIGH);
+  	digitalWrite(DECENA, HIGH);
+  }
+}
+
+void imprimir_contador_hex(int contador)
+{
+  prender_led(APAGAR_LED);
+  int units = contador % 16;
+  int tens = (contador / 16) % 16;
+  prender_numero_hex(tens);
+  prender_led(DECENA);
+  //delay(100);
+  prender_led(APAGAR_LED);
+  prender_numero_hex(units);
+  prender_led(UNIDAD);
+  //delay(500);
+}
+
+int keypressed(void)
+{
+  sube = digitalRead(UP);
+  baja = digitalRead(DOWN);
+  reset = digitalRead(RESET);
+
+    if(sube == 1) // no presione
+  {
+     // Serial.println(sube); // es 0
+     subePrevia = 1;
+  }
+     if(baja) // no presione
+  {
+     bajaPrevia = 1;
+  }
+     if(reset) // no presione
+  {
+     resetPrevia = 1;
+  }
+    
+  if (sube == 0 && sube != subePrevia)
+  {
+    subePrevia=sube;
+    return UP;
+  }
+  
+  if (baja == 0 && baja != bajaPrevia)
+  {
+    bajaPrevia=baja;
+    return DOWN;
+  }
+  
+  if (reset == 0 && reset != resetPrevia)
+  {
+    resetPrevia=reset;
+    return RESET;
+  }
+  // return 0;
+}
+
+int siguiente_primo(int numero)
+{
+  numero++;
+  while (!es_primo(numero)) {
+    numero++;
+  }
+  return numero;
+}
+
+int anterior_primo(int numero)
+{
+  if (numero >= 2 or numero == 0) {
+    numero--;
+    while (!es_primo(numero)) {
+      numero--;
+      if (numero < 2) 
+      {
+        return 97; 
+      }
+    }
+  }
+  return numero;
+}
+
+bool es_primo(int numero)
+{
+  if (numero <= 1) {
+    return false;
+  }
+  for (int i = 2; i * i <= numero; i++) {
+    if (numero % i == 0) {
+      return false;
+    }
+  }
+  return true;
+}
+  
